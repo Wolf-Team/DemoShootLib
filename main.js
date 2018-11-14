@@ -1,3 +1,14 @@
+/*
+BUILD INFO:
+  dir: dev
+  target: main.js
+  files: 1
+*/
+
+
+
+// file: main.js
+
 IMPORT("ShootLib");
 
 var ShotType = ShootLib.ShotType;
@@ -157,7 +168,7 @@ ShootLib.addGun({
 	bullet:{
 		speed:10,
 		count:10,
-		damage:ShootLib.MAX_DAMAGE
+		damage:20
 	},
 	fov:{
 		level:40,
@@ -199,3 +210,7 @@ ShootLib.addAmmos([{
 		meta:0
 	}
 },]);
+
+
+
+

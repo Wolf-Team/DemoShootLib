@@ -1,13 +1,13 @@
 /*
 BUILD INFO:
-  dir: dev
+  dir: dev/
   target: main.js
   files: 1
 */
 
 
 
-// file: main.js
+// main.js
 
 IMPORT("ShootLib", "ShootLib");
 
@@ -178,6 +178,86 @@ ShootLib.addGun({
     }
 });
 
+ShootLib.addGun({
+    id:"rpg",
+    name:"RPG-7",
+    ammo:"ammolauncher",
+    accuracy:5,
+    recoil:19,
+    rate:1,
+    texture:{
+        name:"rpg",
+        meta:0
+    },
+    shotType:ShotType.NORMAL,
+    buttonType:ButtonType.CLICK,
+    bullet:{
+        speed:5,
+        count:1,
+		entity:Native.EntityType.PRIMED_TNT,
+        damage:19
+    },
+    fov:{
+        level:5
+    },
+    sounds:{
+        shot:"RPGShoot.ogg",
+        empty:"EmptyGun.mp3",
+        reload:"reload/BazookaReload.mp3"
+    }
+});
+
+ShootLib.addGun({
+    id:"barrett_explosive",
+    name:"Barrett Explosive",
+    ammo:"ammosniper",
+    accuracy:2,
+    recoil:25,
+    rate:1,
+    texture:{
+        name:"barrett_explosive",
+        meta:0
+    },
+    shotType:ShotType.NORMAL,
+    buttonType:ButtonType.CLICK,
+    bullet:{
+        speed:10,
+        count:10,
+        damage:ShootLib.MAX_DAMAGE
+    },
+    fov:{
+        level:40,
+        link:"crosshair/dragunov"
+    },
+    sounds:{
+        shot:"BarrettShoot.ogg",
+        empty:"EmptyGun.mp3",
+        reload:"reload/BARReload.ogg"
+    },
+	explode:{
+		fire:false,
+		level:5
+	}
+});
+
+Callback.addCallback("BulletHit", function(bullet, item, hit){
+	var gun = ShootLib.getGun(Player.getCarriedItem().id);
+	if(gun !== false){
+		if(gun.id == "barrett_explosive"){
+			var power, fire;
+			if(gun.explode === true){
+				power = 4;
+				fire = false;
+			}else{
+				power = gun.explode.level || 4;
+				fire = gun.explode.fire || false;
+			}
+			
+			World.explode(hit.x, hit.y, hit.z, power, fire);
+		}
+	}
+});
+
 ShootLib.addAmmos([{
     id:"ammohandgun",
     name:"Handgun Ammo",
@@ -206,7 +286,39 @@ ShootLib.addAmmos([{
         name:"ammosniper",
         meta:0
     }
+},{
+    id:"ammolauncher",
+    name:"Launcher Ammo",
+    texture:{
+        name:"ammolauncher",
+        meta:0
+    }
 },]);
+
+Callback.addCallback("GunsDefined", function(){
+    Item.addCreativeGroup("dsl_shotgun", "Shotguns", [
+        ItemID.ammoshotgun,
+        ItemID.r870,
+        ItemID.aa12
+    ]);
+    Item.addCreativeGroup("dsl_assault", "Assault Rifle", [
+        ItemID.ammoassault,
+        ItemID.ak47
+    ]);
+    Item.addCreativeGroup("dsl_sniper", "Sniper Rifle", [
+        ItemID.ammosniper,
+        ItemID.barrett,
+        ItemID.barrett_explosive
+    ]);
+    Item.addCreativeGroup("dsl_handgun", "Handgun", [
+        ItemID.ammohandgun,
+        ItemID.deserteagle
+    ]);
+    Item.addCreativeGroup("dsl_launcher", "Launcher", [
+        ItemID.ammolauncher,
+        ItemID.rpg
+    ]);
+});
 
 
 

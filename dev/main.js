@@ -284,3 +284,27 @@ ShootLib.addAmmos([{
     }
 },]);
 
+Callback.addCallback("GunsDefined", function(){
+    Item.addCreativeGroup("dsl_shotgun", "Shotguns", [
+        ItemID.ammoshotgun,
+        ItemID.r870,
+        ItemID.aa12
+    ]);
+    Item.addCreativeGroup("dsl_assault", "Assault Rifle", [
+        ItemID.ammoassault,
+        ItemID.ak47
+    ]);
+    Item.addCreativeGroup("dsl_sniper", "Sniper Rifle", [
+        ItemID.ammosniper,
+        ItemID.barrett,
+        ItemID.barrett_explosive
+    ]);
+    Item.addCreativeGroup("dsl_handgun", "Handgun", [
+        ItemID.ammohandgun,
+        ItemID.deserteagle
+    ]);
+    Item.addCreativeGroup("dsl_launcher", "Launcher", [
+        ItemID.ammolauncher,
+        ItemID.rpg
+    ]);
+});
